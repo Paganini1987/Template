@@ -22,6 +22,8 @@ const webpackStream = require('webpack-stream');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 var   ENV          = 'development';
 var   pug          = require('gulp-pug');
+const plumber      = require('gulp-plumber');
+const notify	   = require('gulp-notify');
 
 // Local Server
 function browsersync() {
@@ -154,6 +156,7 @@ function env (done) {
 
 function views () {
 	return src('app/pug/pages/*.pug')
+		.pipe(plumber({ errorHandler: notify.onError("<%= error.message %>") }))
 		.pipe(pug({
 			pretty: true
 		}))
